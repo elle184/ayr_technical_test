@@ -1,0 +1,3 @@
+com/seb/phone/store/persistence/configuration/DBConnectionTest.class
+com/seb/phone/store/persistence/dao/ModelDAOTest.class
+com/seb/phone/store/persistence/dao/BrandDAOTest.class

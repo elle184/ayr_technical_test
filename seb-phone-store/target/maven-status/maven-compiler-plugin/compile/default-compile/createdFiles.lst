@@ -1,0 +1,10 @@
+com/seb/phone/store/persistence/configuration/DBConnection.class
+com/seb/phone/store/business/impl/ModelServiceImpl.class
+com/seb/phone/store/persistence/entity/Model.class
+com/seb/phone/store/managed/bean/ProductManagedBean.class
+com/seb/phone/store/persistence/entity/Brand.class
+com/seb/phone/store/business/ModelService.class
+com/seb/phone/store/persistence/entity/Brand$BrandBuilder.class
+com/seb/phone/store/persistence/dao/ModelDAO.class
+com/seb/phone/store/persistence/entity/Model$ModelBuilder.class
+com/seb/phone/store/persistence/dao/BrandDAO.class
