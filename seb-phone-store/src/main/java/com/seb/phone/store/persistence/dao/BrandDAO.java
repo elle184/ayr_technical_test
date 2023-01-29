@@ -40,6 +40,8 @@ public class BrandDAO {
             logger.log(Level.SEVERE
                 , String.format("An error has occurred when trying to return the brand information with the id %d", id)
                 , e);
+        } finally {
+            DBConnection.close();
         }
 
         return brand;

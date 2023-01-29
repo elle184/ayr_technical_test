@@ -1,6 +1,7 @@
 package com.seb.phone.store.business.impl;
 
 import com.seb.phone.store.business.ModelService;
+import com.seb.phone.store.persistence.dao.BrandDAO;
 import com.seb.phone.store.persistence.dao.ModelDAO;
 import com.seb.phone.store.persistence.entity.Model;
 
@@ -19,10 +20,17 @@ public class ModelServiceImpl implements ModelService {
 
     private ModelDAO modelDao;
 
+    private BrandDAO brandDao;
+
     @Override
     public List<Model> getAll() {
         this.modelDao = new ModelDAO();
+        this.brandDao = new BrandDAO();
         List<Model> models = this.modelDao.findAll();
+
+        models.forEach((model) -> {
+            model.setBrand(this.brandDao.findById(model.getBrand().getId()));
+        });
 
         return models;
     }

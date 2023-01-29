@@ -23,10 +23,25 @@ create table model(
     , update_date timestamp not null default current_timestamp
 );
 
+create table stock(
+    id serial primary key
+    , model_id int4
+    , price money not null default 0.0
+    , in_stock smallint not null default 100
+    , rating smallint not null default 0
+    , creation_date timestamp not null default current_timestamp
+    , update_date timestamp not null default current_timestamp
+);
+
 alter table model
 add constraint md_brand_fk
 foreign key (brand_id)
 references brand;
+
+alter table stock
+add constraint st_model_fk
+foreign key (model_id)
+references model;
 
 -- 2. Role creation
 create role client inherit login password '20230128';

@@ -26,7 +26,7 @@ public class ModelDAO {
     protected static Logger logger = Logger.getLogger(ModelDAO.class.getName());
 
     public List<Model> findAll() {
-        String sql = "SELECT id, brand_id, name FROM model";
+        String sql = "SELECT id, brand_id, name, image_source FROM model";
         List<Model> models = new ArrayList<>();
         DBConnection.connect();
 
@@ -38,7 +38,9 @@ public class ModelDAO {
             while (resultSet.next()) {
                 models.add(Model.builder()
                     .id(resultSet.getLong("id"))
+                    .name(resultSet.getString("name"))
                     .brand(Brand.builder().id(resultSet.getLong("brand_id")).build())
+                    .imageSource(resultSet.getString("image_source"))
                     .build());
             }
 
@@ -46,6 +48,8 @@ public class ModelDAO {
             logger.log(Level.SEVERE
                 , "An error has ocurred when trying to return the models information."
                 , e);
+        } finally {
+            DBConnection.close();
         }
 
         return models;

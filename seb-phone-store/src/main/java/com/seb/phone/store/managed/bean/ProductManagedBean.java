@@ -1,13 +1,19 @@
 package com.seb.phone.store.managed.bean;
 
 import com.seb.phone.store.business.ModelService;
+import com.seb.phone.store.business.ProductService;
+import com.seb.phone.store.business.vo.Client;
+import com.seb.phone.store.business.vo.Product;
 import com.seb.phone.store.persistence.entity.Model;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.ejb.EJB;
 import javax.faces.bean.ViewScoped;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,16 +25,33 @@ import java.util.List;
  */
 @ManagedBean
 @ViewScoped
-public class ProductManagedBean {
+public class ProductManagedBean implements Serializable {
 
     @EJB
-    private ModelService modelService;
+    private ProductService productService;
 
     @Getter
-    private List<Model> models;
+    private List<Product> products;
+
+    @Getter
+    @Setter
+    private Client client;
 
     @PostConstruct
     public void init() {
-        this.models = this.modelService.getAll();
+        this.client = new Client();
+        this.client.setProductsSelected(0);
+        this.client.setFullValue(0D);
+        this.client.setProductsToPurchase(new ArrayList<>());
+
+        this.products = this.productService.getInfo();
+    }
+
+    public void addToCart(Product product) {
+        if (null != product) {
+            this.client.setProductsSelected(this.client.getProductsSelected() + 1);
+            this.client.getProductsToPurchase().add(product);
+            this.client.setFullValue(this.productService.applyDiscount(this.client.getProductsToPurchase()));
+        }
     }
 }

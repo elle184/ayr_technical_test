@@ -26,6 +26,8 @@ public class Model {
 
     private String name;
 
+    private String imageSource;
+
     private LocalDateTime creationDate;
 
     private LocalDateTime updateDate;

@@ -37,4 +37,14 @@ public class DBConnection {
                 , e);
         }
     }
+
+    public static void close() {
+        if (null != connection) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 }

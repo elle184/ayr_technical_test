@@ -6,57 +6,76 @@
     <h:head>
     </h:head>
     <h:body>
-        <h:form id="productList">
-            <p:dataView id="modelsList" value="#{productManagedBean.models}" var="model"
-                        rows="5" paginator="true" rowsPerPageTemplate="5, 10, 15"
-                        paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                        gridIcon="pi pi-th-large" listIcon="pi pi-bars">
-                <p:dataViewGridItem>
-                    <div class="product-grid-item card border-1">
-                        <div class="product-grid-item-top">
-                            <div>
-                                <i class="pi pi-tag product-category-icon" />
-                                <span class="product-category">Dispositivos moviles</span>
-                            </div>
-                            <span class="product-badge status-instock">In Stock</span>
-                        </div>
-                        <div class="product-grid-item-content">
-                            <p:graphicImage name="images/google_pixel_6a.png" />
-                            <div class="product-name">#{model.name}</div>
-                            <div class="product-description">#{model.brand.id}</div>
-                        </div>
-                        <div class="product-grid-item-bottom">
-                            <h:outputText value="100" styleClass="product-price">
-                            </h:outputText>
-                            <p:commandButton type="button"
-                                             value="Add To Cart"
-                                             icon="pi pi-shopping-cart">
-                            </p:commandButton>
-                        </div>
-                    </div>
-                </p:dataViewGridItem>
+        <div class="card product">
+            <h:form id="productList">
+                <p:card>
+                    <p:badge id="clientCart" value="#{productManagedBean.client.productsSelected}">
+                        <p:commandButton value="Cart" icon="pi pi-shopping-cart" onclick="PF('modalClientCart').show()" />
+                    </p:badge>
+                </p:card>
 
-                <p:dataViewListItem>
-                    <div class="product-list-item">
-                        <p:graphicImage name="images/google_pixel_6a.png" />
-                        <div class="product-list-detail">
-                            <div class="product-name">#{model.name}</div>
-                            <div class="product-description">#{model.brand.id}</div>
-                            <i class="pi pi-tag product-category-icon"/><span
-                                class="product-category">Dispositivos moviles</span>
+                <p:divider />
+
+                <p:dataView id="productList" value="#{productManagedBean.products}"
+                    var="product" rows="5" paginator="true" rowsPerPageTemplate="5, 10, 15"
+                    paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                    gridIcon="pi pi-th-large">
+                    <p:dataViewGridItem>
+                        <div class="product-grid-item card border-1">
+                            <div class="product-grid-item-top">
+                                <div>
+                                    <i class="pi pi-tag product-category-icon" />
+                                    <span class="product-category">Dispositivos moviles</span>
+                                </div>
+                                <span class="product-badge status-instock">In Stock</span>
+                            </div>
+                            <div class="product-grid-item-content">
+                                <p:graphicImage library="images" name="#{product.model.imageSource}" width="320" />
+                                <div class="product-name">#{product.model.name}</div>
+                                <div class="product-description">#{product.model.brand.name}</div>
+                                <p:rating readonly="true" value="#{product.stock.rating}" />
+                            </div>
+                            <div class="product-grid-item-bottom">
+                                <h:outputText value="#{product.stock.price}" styleClass="product-price">
+                                    <f:convertNumber currencySymbol="$" type="currency" />
+                                </h:outputText>
+                                <p:commandButton type="submit"
+                                    value="Add To Cart"
+                                    icon="pi pi-shopping-cart"
+                                    actionListener="#{productManagedBean.addToCart(product)}"
+                                    update="@form"
+                                />
+                            </div>
                         </div>
-                        <div class="product-list-action">
-                            <h:outputText value="100" styleClass="product-price">
-                            </h:outputText>
-                            <p:commandButton type="button"
-                                             value="Add To Cart"
-                                             icon="pi pi-shopping-cart">
-                            </p:commandButton>
-                            <span class="product-badge status-instock">In Stock</span>
-                        </div>
-                    </div>
-                </p:dataViewListItem>
-            </p:dataView>
-        </h:form>
+                    </p:dataViewGridItem>
+                </p:dataView>
+
+                <p:dialog header="Cart" widgetVar="modalClientCart" showEffect="fade" modal="true" width="600">
+                    <p:dataTable id="clientProductList" value="#{productManagedBean.client.productsToPurchase}"
+                        var="productToPurchase" rows="5" paginator="true" paginatorPosition="bottom"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} products"
+                         rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+                        <p:column headerText="Brand" filterBy="#{productToPurchase.model.brand.name}" filterMathMode="contains">
+                            <h:outputText value="#{productToPurchase.model.brand.name}" />
+                        </p:column>
+                        <p:column headerText="Model" filterBy="#{productToPurchase.model.name}" filterMathMode="contains">
+                            <h:outputText value="#{productToPurchase.model.name}" />
+                        </p:column>
+                        <p:column headerText="Price">
+                            <h:outputText value="#{productToPurchase.stock.price}" />
+                        </p:column>
+
+                        <f:facet name="footer">
+                            <span class="font-bold">
+                                Full value to purchase: <h:outputText value="#{productManagedBean.client.fullValue}">
+                                    <f:convertNumber currencySymbol="$" type="currency" />
+                                </h:outputText>
+                            </span>
+                        </f:facet>
+                    </p:dataTable>
+                </p:dialog>
+            </h:form>
+        </div>
     </h:body>
 </html>
