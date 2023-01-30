@@ -1,11 +1,7 @@
--- 1. Database creation
-create database db_phone_store;
-
--- 2. Administrator role creation
-create role dps_admin inherit login password 'Do$00Ocho15Dos19Tre$';
-
--- 3. Administrator privileges creation
-ALTER ROLE dps_admin CREATEROLE;
+-- Assign privileges with dps_admin
+grant usage on brand_id_seq to client;
+grant usage on model_id_seq to client;
+grant usage on stock_id_seq to client;
 
 -- 4. Tables creation
 create table brand(
@@ -42,10 +38,3 @@ alter table stock
 add constraint st_model_fk
 foreign key (model_id)
 references model;
-
--- 2. Role creation
-create role client inherit login password '20230128';
-
--- 3. Add privileges to new role
-grant select, update, insert, delete on all tables in schema public to client;
-grant usage on brand_id_seq to client;
