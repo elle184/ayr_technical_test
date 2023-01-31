@@ -12,13 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
-/**
- * </strong></strong>
- *
- * @author <a href="mailto:abecerra@redesis.com">Adrian Becerra</a>
- * @version 7
- * @since 7
- */
 @Repository
 public class CompanyDAO extends AbstractDAO {
 
@@ -35,7 +28,9 @@ public class CompanyDAO extends AbstractDAO {
 
     public Company findById(Long id) {
         return this.jdbcTemplate.query(
-            "SELECT id, name, address, phone_number, creation_date, modification_date"
+            "SELECT id, name, address, phone_number, creation_date, modification_date " +
+                "FROM company " +
+                "WHERE id = ?"
             , new ResultSetExtractor<Company>() {
                 @Override
                 public Company extractData(ResultSet rs) throws SQLException, DataAccessException {

@@ -10,7 +10,7 @@ create table company(
     id serial primary key
     , name varchar(50) not null
     , address varchar(150) not null
-    , phone_number int4 not null
+    , phone_number int8 not null
     , creation_date timestamp not null default current_timestamp
     , modification_date timestamp not null default current_timestamp
 );
@@ -28,7 +28,7 @@ create table phone_service(
     id serial primary key
     , client_id int4 not null
     , plan_id int4 not null
-    , phone_number smallint not null
+    , phone_number int8 not null
     , creation_date timestamp not null default current_timestamp
     , modification_date timestamp not null default current_timestamp
 );
@@ -47,3 +47,8 @@ alter table phone_service
 add constraint ps_plan_fk
 foreign key (plan_id)
 references plan;
+
+grant usage on client_id_seq to client;
+grant usage on company_id_seq to client;
+grant usage on plan_id_seq to client;
+grant usage on phone_service_id_seq to client;

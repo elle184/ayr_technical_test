@@ -11,9 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
-/**
- * Service definition to manage the information about.
- */
 @Repository
 public class ClientDAO extends AbstractDAO {
 
@@ -49,5 +46,28 @@ public class ClientDAO extends AbstractDAO {
                     return client;
                 }
             }, new Object[]{securityCode});
+    }
+
+    public Client findById(Long clientId) {
+        return this.jdbcTemplate.query(
+            "SELECT id, security_code, full_name, creation_date, modification_date FROM client WHERE id = ?"
+            , new ResultSetExtractor<Client>(){
+                @Override
+                public Client extractData(ResultSet resultSet) throws SQLException, DataAccessException {
+                    Client client = null;
+
+                    while (resultSet.next()) {
+                        client = Client.builder()
+                            .id(resultSet.getLong("id"))
+                            .securityCode(resultSet.getString("security_code"))
+                            .fullName(resultSet.getString("full_name"))
+                            .creationDate(resultSet.getObject("creation_date", LocalDateTime.class))
+                            .modificationDate(resultSet.getObject("modification_date", LocalDateTime.class))
+                            .build();
+                    }
+
+                    return client;
+                }
+            }, new Object[]{clientId});
     }
 }

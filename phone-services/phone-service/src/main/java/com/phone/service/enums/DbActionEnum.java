@@ -8,7 +8,8 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum DbActionEnum {
     CREATE("CREATE")
-    , UPDATE("UPDATE");
+    , UPDATE("UPDATE")
+    , DELETE("DELETE");
 
     @Getter
     private final String action;

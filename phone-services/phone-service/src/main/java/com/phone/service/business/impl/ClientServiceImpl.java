@@ -6,13 +6,6 @@ import com.phone.service.dto.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * </strong></strong>
- *
- * @author <a href="mailto:abecerra@redesis.com">Adrian Becerra</a>
- * @version 7
- * @since 7
- */
 @Service
 public class ClientServiceImpl implements ClientService {
 
