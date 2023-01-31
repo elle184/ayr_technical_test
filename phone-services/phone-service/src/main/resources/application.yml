@@ -1,0 +1,6 @@
+spring :
+  datasource:
+    url: jdbc:postgresql://localhost:5433/db_phone_services
+    username: client
+    password: 20230128
+    driver-class-name: org.postgresql.Driver
